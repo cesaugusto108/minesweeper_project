@@ -40,24 +40,26 @@ public class Cell {
         } else return false;
     }
 
+    // toggles opened and not opened states
     void toggleFlagged() {
         if (!opened) flagged = !flagged;
     }
 
+    // checks whether the surroundings of a cell are safe
+    boolean areSurroundingsSafe() {
+        return adjacentCells.stream().noneMatch(adjacentCell -> adjacentCell.mined);
+    }
 
+    // opens cells: if a cell is mined, an exception is called and the game is over
     boolean openCell() {
         if (!opened && !flagged) {
             opened = true;
 
-            if (mined) throw new ExplosionException();
-
             if (areSurroundingsSafe()) adjacentCells.forEach(adjacentCell -> adjacentCell.openCell());
+
+            if (mined) throw new ExplosionException();
 
             return true;
         } else return false;
-    }
-
-    boolean areSurroundingsSafe() {
-        return adjacentCells.stream().noneMatch(adjacentCell -> adjacentCell.mined);
     }
 }
