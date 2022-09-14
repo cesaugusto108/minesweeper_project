@@ -27,6 +27,27 @@ public class Cell {
         return flagged;
     }
 
+    public boolean isMined() {
+        return mined;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    @Override
+    public String toString() {
+        if (flagged) return "x";
+        else if (opened && mined) return "*";
+        else if (opened && getAmountOfMines() > 0) return Integer.toString(getAmountOfMines());
+        else if (opened) return " ";
+        else return "?";
+    }
+
     // checks whether a cell is adjacent to current cell
     boolean isAdjacentCell(Cell adjacentCell) {
         boolean otherRow = row != adjacentCell.row;
@@ -71,7 +92,28 @@ public class Cell {
         } else return false;
     }
 
+    // set a cell as mined
     void mine() {
         mined = true;
+    }
+
+    // whether the goal of the game is met for a certain cell
+    boolean isGoalMet() {
+        boolean safe = opened && !mined;
+        boolean cellProtected = mined && flagged;
+
+        return safe || cellProtected;
+    }
+
+    // gets the amount of mines in adjacent cells
+    int getAmountOfMines() {
+        return (int) adjacentCells.stream().filter(adjacentCell -> adjacentCell.isMined()).count();
+    }
+
+    // resets cell states
+    void resetCell() {
+        opened = false;
+        flagged = false;
+        mined = false;
     }
 }

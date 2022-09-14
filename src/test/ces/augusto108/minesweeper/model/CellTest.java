@@ -98,4 +98,53 @@ class CellTest {
 
         assertTrue(cell2.isOpened() && !cell1.isOpened());
     }
+
+    // whether cell is mined when method is used
+    @Test
+    void mine() {
+        Cell cell1 = new Cell(2, 2);
+
+        cell1.mine();
+
+        assertTrue(cell1.isMined());
+    }
+
+    // whether a cell is clear or protected when flagged
+    @Test
+    void isGoalMet() {
+        Cell cell1 = new Cell(4, 4);
+
+        cell1.mine();
+        cell1.toggleFlagged();
+
+        assertTrue(cell1.isGoalMet());
+    }
+
+    // whether the right sum of mines in adjacent cells is returned
+    @Test
+    void getAmountOfMines() {
+        Cell cell1 = new Cell(3, 4);
+        Cell cell2 = new Cell(3, 2);
+        Cell cell3 = new Cell(2, 3);
+
+        cell1.mine();
+        cell2.mine();
+        cell3.mine();
+
+        cell.adjacentCells.add(cell1);
+        cell.adjacentCells.add(cell2);
+        cell.adjacentCells.add(cell3);
+
+        assertEquals(3, cell.getAmountOfMines());
+    }
+
+    // whether cell's states are reset to default values
+    @Test
+    void resetCell() {
+        Cell cell1 = new Cell(2, 3);
+
+        cell1.resetCell();
+
+        assertFalse(cell1.isOpened() && cell1.isFlagged() && cell.isMined());
+    }
 }
