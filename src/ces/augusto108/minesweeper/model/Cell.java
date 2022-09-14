@@ -1,5 +1,7 @@
 package ces.augusto108.minesweeper.model;
 
+import ces.augusto108.minesweeper.exceptions.ExplosionException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +44,16 @@ public class Cell {
 
     void toggleFlagged() {
         if (!opened) flagged = !flagged;
+    }
+
+
+    boolean openCell() {
+        if (!opened && !flagged) {
+            opened = true;
+
+            if (mined) throw new ExplosionException();
+        }
+
+        return false;
     }
 }
