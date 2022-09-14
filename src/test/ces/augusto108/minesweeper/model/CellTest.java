@@ -1,11 +1,17 @@
 package ces.augusto108.minesweeper.model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CellTest {
-    private final Cell cell = new Cell(3, 3);
+    private Cell cell;
+
+    @BeforeEach
+    void createCell() {
+        cell = new Cell(3, 3);
+    }
 
     @Test
     void isAdjacentCell() {
