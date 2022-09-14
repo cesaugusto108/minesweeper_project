@@ -19,6 +19,14 @@ public class Cell {
         this.column = column;
     }
 
+    public boolean isOpened() {
+        return opened;
+    }
+
+    public boolean isFlagged() {
+        return flagged;
+    }
+
     // checks whether a cell is adjacent to current cell
     boolean isAdjacentCell(Cell adjacentCell) {
         boolean otherRow = row != adjacentCell.row;
@@ -61,5 +69,9 @@ public class Cell {
 
             return true;
         } else return false;
+    }
+
+    void mine() {
+        mined = true;
     }
 }
