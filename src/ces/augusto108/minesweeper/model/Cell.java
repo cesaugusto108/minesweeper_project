@@ -37,9 +37,7 @@ public class Cell {
             adjacentCells.add(adjacentCell);
 
             return true;
-        } else {
-            return false;
-        }
+        } else return false;
     }
 
     void toggleFlagged() {
@@ -52,8 +50,14 @@ public class Cell {
             opened = true;
 
             if (mined) throw new ExplosionException();
-        }
 
-        return false;
+            if (areSurroundingsSafe()) adjacentCells.forEach(adjacentCell -> adjacentCell.openCell());
+
+            return true;
+        } else return false;
+    }
+
+    boolean areSurroundingsSafe() {
+        return adjacentCells.stream().noneMatch(adjacentCell -> adjacentCell.mined);
     }
 }
