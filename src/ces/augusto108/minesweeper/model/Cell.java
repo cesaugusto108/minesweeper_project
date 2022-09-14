@@ -39,4 +39,8 @@ public class Cell {
             return false;
         }
     }
+
+    void toggleFlagged() {
+        if (!opened) flagged = !flagged;
+    }
 }
