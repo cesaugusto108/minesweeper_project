@@ -8,7 +8,7 @@ public class Board {
     private final int columns;
     private final int mines;
 
-    private List<Cell> cellList = new ArrayList<>();
+    private final List<Cell> cellList = new ArrayList<>();
 
     public Board(int rows, int columns, int mines) {
         this.rows = rows;
@@ -24,8 +24,8 @@ public class Board {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        int row = 0;
-        int column = 0;
+        int row;
+        int column;
         for (row = 0; row < rows; row++) {
             for (column = 0; column < columns; column++) {
                 stringBuilder
@@ -39,6 +39,7 @@ public class Board {
         return stringBuilder.toString();
     }
 
+    // creates the cells of the board
     private void createCells() {
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
@@ -47,6 +48,7 @@ public class Board {
         }
     }
 
+    // associates adjacent cells
     private void associateAdjacentCells() {
         for (Cell cA : cellList) {
             for (Cell cB : cellList) {
@@ -55,6 +57,7 @@ public class Board {
         }
     }
 
+    // spreads the mines in the board randomly
     private void spreadMines() {
         int liveMines = 0;
 
@@ -66,13 +69,31 @@ public class Board {
         }
     }
 
-    public boolean wonGame() {
+    // checks winning
+    public boolean gameWin() {
         return cellList.stream().allMatch(cell -> cell.isGoalMet());
     }
 
+    // resets the game
     public void resetGame() {
         cellList.forEach(cell -> cell.resetCell());
 
         spreadMines();
+    }
+
+    // opens a cell in the board
+    public void openCell(int row, int column) {
+        cellList.parallelStream()
+                .filter(cell -> cell.getRow() == row && cell.getColumn() == column)
+                .findFirst()
+                .ifPresent(cell -> cell.openCell());
+    }
+
+    // flags the cell in the board
+    public void toggleFlagged(int row, int column) {
+        cellList.parallelStream()
+                .filter(cell -> cell.getRow() == row && cell.getColumn() == column)
+                .findFirst()
+                .ifPresent(cell -> cell.toggleFlagged());
     }
 }
