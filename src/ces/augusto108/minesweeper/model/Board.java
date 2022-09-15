@@ -3,7 +3,7 @@ package ces.augusto108.minesweeper.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+public class Board   {
     private final int rows;
     private final int columns;
     private final int mines;
@@ -18,6 +18,22 @@ public class Board {
         createCells();
         associateAdjacentCells();
         spreadMines();
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public int getMines() {
+        return mines;
+    }
+
+    public List<Cell> getCellList() {
+        return cellList;
     }
 
     @Override
@@ -35,7 +51,7 @@ public class Board {
             }
             stringBuilder.append("\n");
         }
-        
+
         return stringBuilder.toString();
     }
 

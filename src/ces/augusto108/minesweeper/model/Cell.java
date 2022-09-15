@@ -97,6 +97,10 @@ public class Cell {
         mined = true;
     }
 
+    void unmine() {
+        mined = false;
+    }
+
     // whether the goal of the game is met for a certain cell
     boolean isGoalMet() {
         boolean safe = opened && !mined;
