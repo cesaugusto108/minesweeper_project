@@ -20,6 +20,25 @@ public class Board {
         spreadMines();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int row = 0;
+        int column = 0;
+        for (row = 0; row < rows; row++) {
+            for (column = 0; column < columns; column++) {
+                stringBuilder
+                        .append(" ")
+                        .append(cellList.get(row))
+                        .append(" ");
+            }
+            stringBuilder.append("\n");
+        }
+        
+        return stringBuilder.toString();
+    }
+
     private void createCells() {
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
