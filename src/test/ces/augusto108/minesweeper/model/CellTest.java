@@ -14,14 +14,88 @@ class CellTest {
         cell = new Cell(3, 3);
     }
 
+    @Test
+    void getRow() {
+        assertEquals(cell.getRow(), 3);
+    }
+
+    @Test
+    void getColumn() {
+        assertEquals(cell.getColumn(), 3);
+    }
+
+    // toString when cell is flagged
+    @Test
+    void flaggedCellTestToString() {
+        Cell flaggedCell = new Cell(4, 4);
+
+        flaggedCell.toggleFlagged();
+
+        assertEquals(flaggedCell.toString(), "x");
+    }
+
+    // toString when cell is opened and mined
+    @Test
+    void openedAndMinedCellTestToString() {
+        Cell openedAndMinedCell = new Cell(4, 3);
+
+        openedAndMinedCell.openCell();
+        openedAndMinedCell.mine();
+
+        assertEquals(openedAndMinedCell.toString(), "*");
+    }
+
+    // toString to show amount of mines in adjacent cells
+    @Test
+    void getAmountOfMinesTestToString() {
+        Cell cellA = new Cell(5, 5);
+        Cell cellB = new Cell(5, 6);
+
+        cellB.mine();
+        cellA.adjacentCells.add(cellB);
+        cellA.openCell();
+
+        assertEquals(cellA.getAmountOfMines(), 1);
+    }
+
+    // toString when cell is just open
+    @Test
+    void openedCellTestToString() {
+        Cell openedCell = new Cell(2, 3);
+
+        openedCell.openCell();
+
+        assertEquals(openedCell.toString(), " ");
+    }
+
+    // toString when cell is not open and not flagged
+    @Test
+    void testToString() {
+        Cell cell2 = new Cell(3, 1);
+
+        assertEquals(cell2.toString(), "?");
+    }
+
     // isAdjacentCell method (whether cell is adjacent to current one)
     @Test
     void isAdjacentCell() {
-        Cell adjacentCell = new Cell(3, 2);
+        Cell adjacentCell1 = new Cell(3, 2);
 
-        boolean result = cell.isAdjacentCell(adjacentCell);
+        boolean result1 = cell.isAdjacentCell(adjacentCell1);
 
-        assertTrue(result);
+        assertTrue(result1);
+
+        Cell adjacentCell2 = new Cell(2, 2);
+
+        boolean result2 = cell.isAdjacentCell(adjacentCell2);
+
+        assertTrue(result2);
+
+        Cell adjacentCell3 = new Cell(1, 2);
+
+        boolean result3 = cell.isAdjacentCell(adjacentCell3);
+
+        assertFalse(result3);
     }
 
     // whether the default state of a cell is not flagged
