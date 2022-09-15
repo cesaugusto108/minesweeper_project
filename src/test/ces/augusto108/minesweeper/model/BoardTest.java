@@ -10,77 +10,64 @@ class BoardTest {
 
     @BeforeEach
     void createBoard() {
-        board = new Board(2, 2, 4);
+        board = new Board(1, 1, 1);
     }
 
     @Test
     void getRows() {
-        assertEquals(board.getRows(), 2);
+        assertEquals(board.getRows(), 1);
     }
 
     @Test
     void getColumns() {
-        assertEquals(board.getColumns(), 2);
+        assertEquals(board.getColumns(), 1);
     }
 
     @Test
     void getMines() {
-        assertEquals(board.getMines(), 4);
+        assertEquals(board.getMines(), 1);
     }
 
     @Test
     void testToString() {
-        Board testBoard = new Board(1, 1, 0);
-
         String result = " " +
-                testBoard.getCellList().get(0) +
+                board.getCellList().get(0) +
                 " " +
                 "\n";
 
-        assertEquals(testBoard.toString(), result);
+        assertEquals(board.toString(), result);
     }
 
+    // whether the player has won the game
     @Test
     void gameWin() {
-        Cell cell1 = board.getCellList().get(0);
-        Cell cell2 = board.getCellList().get(1);
-        Cell cell3 = board.getCellList().get(2);
-        Cell cell4 = board.getCellList().get(3);
-
-        cell1.toggleFlagged();
-        cell2.toggleFlagged();
-        cell3.toggleFlagged();
-        cell4.toggleFlagged();
+        board.getCellList().get(0).toggleFlagged();
 
         assertTrue(board.gameWin());
     }
 
+    // resets the game
     @Test
     void resetGame() {
         board.resetGame();
 
-        for (Cell cell : board.getCellList()) {
-            assertFalse(cell.isOpened());
-            assertFalse(cell.isFlagged());
-            assertTrue(cell.isMined());
-        }
+        assertFalse(board.getCellList().get(0).isOpened());
+        assertTrue(board.getCellList().get(0).isMined());
     }
 
+    // opens cell
     @Test
     void openCell() {
-        Cell cell = board.getCellList().get(0);
-
-        cell.unmine();
+        board.getCellList().get(0).unmine();
 
         board.openCell(0, 0);
 
         assertTrue(board.getCellList().get(0).isOpened());
     }
 
+    // toggles flagged state of cell
     @Test
     void toggleFlagged() {
-        Cell cell = board.getCellList().get(0);
-
         board.toggleFlagged(0, 0);
 
         assertTrue(board.getCellList().get(0).isFlagged());
