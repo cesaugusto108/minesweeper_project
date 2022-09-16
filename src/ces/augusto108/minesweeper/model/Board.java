@@ -42,14 +42,24 @@ public class Board {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        int row;
-        int column;
-        for (row = 0; row < rows; row++) {
-            for (column = 0; column < columns; column++) {
-                stringBuilder
-                        .append(" ")
-                        .append(cellList.get(row).toString())
-                        .append(" ");
+        stringBuilder.append("  ");
+        for (int column = 0; column < columns; column++) {
+            stringBuilder.append(" ");
+            stringBuilder.append(column);
+            stringBuilder.append(" ");
+        }
+
+        stringBuilder.append("\n");
+
+        int i = 0;
+        for (int row = 0; row < rows; row++) {
+            stringBuilder.append(row);
+            stringBuilder.append(" ");
+            for (int column = 0; column < columns; column++) {
+                stringBuilder.append(" ");
+                stringBuilder.append(cellList.get(i).toString());
+                stringBuilder.append(" ");
+                i++;
             }
             stringBuilder.append("\n");
         }
@@ -80,10 +90,10 @@ public class Board {
         int liveMines = 0;
 
         while (liveMines < mines) {
-            liveMines = (int) cellList.stream().filter(cell -> cell.isMined()).count();
             int randomCell = (int) (Math.random() * cellList.size());
-
             cellList.get(randomCell).mine();
+
+            liveMines = (int) cellList.stream().filter(cell -> cell.isMined()).count();
         }
     }
 
@@ -107,7 +117,7 @@ public class Board {
                     .findFirst()
                     .ifPresent(cell -> cell.openCell());
         } catch (ExplosionException e) {
-            cellList.forEach(cell -> cell.setOpened(true));
+            cellList.forEach(cell -> cell.setOpened());
 
             throw e;
         }

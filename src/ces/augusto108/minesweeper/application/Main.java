@@ -5,6 +5,7 @@ import ces.augusto108.minesweeper.view.GameConsole;
 
 public class Main {
     public static void main(String[] args) {
-        GameConsole gameConsole = new GameConsole(new Board(4, 4, 2));
+        Board board = new Board(4, 8, 16);
+        new GameConsole(board);
     }
 }

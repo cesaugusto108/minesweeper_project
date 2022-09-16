@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class GameConsole {
     private final Board board;
+    private final Scanner scanner = new Scanner(System.in);
 
     public GameConsole(Board board) {
         this.board = board;
@@ -18,42 +19,46 @@ public class GameConsole {
     }
 
     private void gameStart() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            play(scanner);
-
+        try {
             boolean continueGame = true;
 
             while (continueGame) {
-                System.out.print("\nStart another match? (Y/n) ");
+                play();
+
+                System.out.print("\nStart another match? (Y/n) : ");
                 String reply = scanner.nextLine();
 
                 if (reply.equalsIgnoreCase("n")) continueGame = false;
                 else board.resetGame();
             }
         } catch (QuitGameException e) {
-            throw new QuitGameException();
+//            throw new QuitGameException();
+            System.out.println("Bye.");
+        } finally {
+            scanner.close();
         }
     }
 
     // prints the board and an instruction to enter coordinates or to quit
-    private void play(Scanner scanner) {
+    private void play() {
         try {
             while (!board.gameWin()) {
-                System.out.println(board);
+                System.out.println("\n" + board);
 
-                String typedCmd = getTypedCmd(scanner, "\nEnter (x, y) or 'quit': ");
+                String typedCmd1 = getTypedCmd("\nEnter (x, y) or 'quit': ");
 
                 Iterator<Integer> coordinates = Arrays
-                        .stream(typedCmd.split(","))
+                        .stream(typedCmd1.split(","))
                         .map(character -> Integer.parseInt(character.trim()))
                         .iterator();
 
-                typedCmd = getTypedCmd(scanner, "\n1 - Open cell; 2 - (Un)flag cell: ");
+                String typedCmd2 = getTypedCmd("\n1 - Open cell or 2 - (Un)flag cell: ");
 
-                if (typedCmd.equals("1")) board.openCell(coordinates.next(), coordinates.next());
-                else if (typedCmd.equals("2")) board.toggleFlagged(coordinates.next(), coordinates.next());
+                if (typedCmd2.equals("1")) board.openCell(coordinates.next(), coordinates.next());
+                else if (typedCmd2.equals("2")) board.toggleFlagged(coordinates.next(), coordinates.next());
             }
 
+            System.out.println(board);
             System.out.println("You win!");
         } catch (ExplosionException e) {
             System.out.println(board);
@@ -61,7 +66,7 @@ public class GameConsole {
         }
     }
 
-    private String getTypedCmd(Scanner scanner, String text) {
+    private String getTypedCmd(String text) {
         System.out.print(text);
 
         String typedIn = scanner.nextLine();

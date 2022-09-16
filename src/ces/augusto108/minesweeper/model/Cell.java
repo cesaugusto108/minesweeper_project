@@ -23,8 +23,8 @@ public class Cell {
         return opened;
     }
 
-    void setOpened(boolean opened) {
-        this.opened = opened;
+    void setOpened() {
+        this.opened = true;
     }
 
     public boolean isFlagged() {
