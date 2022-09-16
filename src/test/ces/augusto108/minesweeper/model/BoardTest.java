@@ -11,6 +11,7 @@ class BoardTest {
     @BeforeEach
     void createBoard() {
         board = new Board(1, 1, 1);
+        System.out.println(board);
     }
 
     @Test
@@ -31,7 +32,7 @@ class BoardTest {
     @Test
     void testToString() {
         String result = " " +
-                board.getCellList().get(0) +
+                board.getCellList().get(0).toString() +
                 " " +
                 "\n";
 

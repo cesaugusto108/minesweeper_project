@@ -1,5 +1,6 @@
 package ces.augusto108.minesweeper.view;
 
+import ces.augusto108.minesweeper.exceptions.ExplosionException;
 import ces.augusto108.minesweeper.exceptions.QuitGameException;
 import ces.augusto108.minesweeper.model.Board;
 
@@ -36,23 +37,28 @@ public class GameConsole {
 
     // prints the board and an instruction to enter coordinates or to quit
     private void play(Scanner scanner) {
-        while (!board.gameWin()) {
+        try {
+            while (!board.gameWin()) {
+                System.out.println(board);
+
+                String typedCmd = getTypedCmd(scanner, "\nEnter (x, y) or 'quit': ");
+
+                Iterator<Integer> coordinates = Arrays
+                        .stream(typedCmd.split(","))
+                        .map(character -> Integer.parseInt(character.trim()))
+                        .iterator();
+
+                typedCmd = getTypedCmd(scanner, "\n1 - Open cell; 2 - (Un)flag cell: ");
+
+                if (typedCmd.equals("1")) board.openCell(coordinates.next(), coordinates.next());
+                else if (typedCmd.equals("2")) board.toggleFlagged(coordinates.next(), coordinates.next());
+            }
+
+            System.out.println("You win!");
+        } catch (ExplosionException e) {
             System.out.println(board);
-
-            String typedCmd = getTypedCmd(scanner, "Enter (x, y) or 'quit': ");
-
-            Iterator<Integer> coordinates = Arrays
-                    .stream(typedCmd.split(","))
-                    .map(character -> Integer.parseInt(character.trim()))
-                    .iterator();
-
-            typedCmd = getTypedCmd(scanner, "1 - Open cell; 2 - (Un)flag cell");
-
-            if (typedCmd.equals("1")) board.openCell(coordinates.next(), coordinates.next());
-            else if (typedCmd.equals("2")) board.toggleFlagged(coordinates.next(), coordinates.next());
+            System.out.println("You lose.");
         }
-
-        System.out.println("You win!");
     }
 
     private String getTypedCmd(Scanner scanner, String text) {

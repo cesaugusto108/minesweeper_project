@@ -1,9 +1,11 @@
 package ces.augusto108.minesweeper.model;
 
+import ces.augusto108.minesweeper.exceptions.ExplosionException;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board   {
+public class Board {
     private final int rows;
     private final int columns;
     private final int mines;
@@ -46,7 +48,7 @@ public class Board   {
             for (column = 0; column < columns; column++) {
                 stringBuilder
                         .append(" ")
-                        .append(cellList.get(row))
+                        .append(cellList.get(row).toString())
                         .append(" ");
             }
             stringBuilder.append("\n");
@@ -99,10 +101,16 @@ public class Board   {
 
     // opens a cell in the board
     public void openCell(int row, int column) {
-        cellList.parallelStream()
-                .filter(cell -> cell.getRow() == row && cell.getColumn() == column)
-                .findFirst()
-                .ifPresent(cell -> cell.openCell());
+        try {
+            cellList.parallelStream()
+                    .filter(cell -> cell.getRow() == row && cell.getColumn() == column)
+                    .findFirst()
+                    .ifPresent(cell -> cell.openCell());
+        } catch (ExplosionException e) {
+            cellList.forEach(cell -> cell.setOpened(true));
+
+            throw e;
+        }
     }
 
     // flags the cell in the board

@@ -23,6 +23,10 @@ public class Cell {
         return opened;
     }
 
+    void setOpened(boolean opened) {
+        this.opened = opened;
+    }
+
     public boolean isFlagged() {
         return flagged;
     }
