@@ -18,6 +18,7 @@ public class GameConsole {
         gameStart();
     }
 
+    // starts and restarts game
     private void gameStart() {
         try {
             boolean continueGame = true;
@@ -32,7 +33,6 @@ public class GameConsole {
                 else board.resetGame();
             }
         } catch (QuitGameException e) {
-//            throw new QuitGameException();
             System.out.println("Bye.");
         } finally {
             scanner.close();
@@ -66,6 +66,7 @@ public class GameConsole {
         }
     }
 
+    // gets commands from user, including a command to quit
     private String getTypedCmd(String text) {
         System.out.print(text);
 
