@@ -45,7 +45,7 @@ public class Board {
         stringBuilder.append("  ");
         for (int column = 0; column < columns; column++) {
             stringBuilder.append(" ");
-            stringBuilder.append(column);
+            stringBuilder.append(column + 1);
             stringBuilder.append(" ");
         }
 
@@ -53,7 +53,7 @@ public class Board {
 
         int i = 0;
         for (int row = 0; row < rows; row++) {
-            stringBuilder.append(row);
+            stringBuilder.append(row + 1);
             stringBuilder.append(" ");
             for (int column = 0; column < columns; column++) {
                 stringBuilder.append(" ");
