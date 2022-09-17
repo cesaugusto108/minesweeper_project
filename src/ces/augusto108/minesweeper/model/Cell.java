@@ -88,7 +88,7 @@ public class Cell {
         if (!opened && !flagged) {
             opened = true;
 
-            if (areSurroundingsSafe()) adjacentCells.forEach(adjacentCell -> adjacentCell.openCell());
+            if (areSurroundingsSafe()) adjacentCells.forEach(Cell::openCell);
 
             if (mined) throw new ExplosionException();
 
@@ -115,7 +115,7 @@ public class Cell {
 
     // gets the amount of mines in adjacent cells
     int getAmountOfMines() {
-        return (int) adjacentCells.stream().filter(adjacentCell -> adjacentCell.isMined()).count();
+        return (int) adjacentCells.stream().filter(Cell::isMined).count();
     }
 
     // resets cell states

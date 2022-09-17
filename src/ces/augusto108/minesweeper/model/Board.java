@@ -93,18 +93,18 @@ public class Board {
             int randomCell = (int) (Math.random() * cellList.size());
             cellList.get(randomCell).mine();
 
-            liveMines = (int) cellList.stream().filter(cell -> cell.isMined()).count();
+            liveMines = (int) cellList.stream().filter(Cell::isMined).count();
         }
     }
 
     // checks winning
     public boolean gameWin() {
-        return cellList.stream().allMatch(cell -> cell.isGoalMet());
+        return cellList.stream().allMatch(Cell::isGoalMet);
     }
 
     // resets the game
     public void resetGame() {
-        cellList.forEach(cell -> cell.resetCell());
+        cellList.forEach(Cell::resetCell);
 
         spreadMines();
     }
@@ -115,9 +115,9 @@ public class Board {
             cellList.parallelStream()
                     .filter(cell -> cell.getRow() == row && cell.getColumn() == column)
                     .findFirst()
-                    .ifPresent(cell -> cell.openCell());
+                    .ifPresent(Cell::openCell);
         } catch (ExplosionException e) {
-            cellList.forEach(cell -> cell.setOpened());
+            cellList.forEach(Cell::setOpened);
 
             throw e;
         }
@@ -128,6 +128,6 @@ public class Board {
         cellList.parallelStream()
                 .filter(cell -> cell.getRow() == row && cell.getColumn() == column)
                 .findFirst()
-                .ifPresent(cell -> cell.toggleFlagged());
+                .ifPresent(Cell::toggleFlagged);
     }
 }

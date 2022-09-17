@@ -15,13 +15,19 @@ class CellTest {
     }
 
     @Test
+    void setOpened() {
+        cell.setOpened();
+        assertTrue(cell.isOpened());
+    }
+
+    @Test
     void getRow() {
-        assertEquals(cell.getRow(), 3);
+        assertEquals(3, cell.getRow());
     }
 
     @Test
     void getColumn() {
-        assertEquals(cell.getColumn(), 3);
+        assertEquals(3, cell.getColumn());
     }
 
     // toString when cell is flagged
@@ -31,7 +37,7 @@ class CellTest {
 
         flaggedCell.toggleFlagged();
 
-        assertEquals(flaggedCell.toString(), "x");
+        assertEquals("x", flaggedCell.toString());
     }
 
     // toString when cell is opened and mined
@@ -42,7 +48,7 @@ class CellTest {
         openedAndMinedCell.openCell();
         openedAndMinedCell.mine();
 
-        assertEquals(openedAndMinedCell.toString(), "*");
+        assertEquals("*", openedAndMinedCell.toString());
     }
 
     // toString to show amount of mines in adjacent cells
@@ -55,7 +61,7 @@ class CellTest {
         cellA.adjacentCells.add(cellB);
         cellA.openCell();
 
-        assertEquals(cellA.getAmountOfMines(), 1);
+        assertEquals(1, cellA.getAmountOfMines());
     }
 
     // toString when cell is just open
@@ -65,7 +71,7 @@ class CellTest {
 
         openedCell.openCell();
 
-        assertEquals(openedCell.toString(), " ");
+        assertEquals(" ", openedCell.toString());
     }
 
     // toString when cell is not open and not flagged
@@ -73,7 +79,7 @@ class CellTest {
     void testToString() {
         Cell cell2 = new Cell(3, 1);
 
-        assertEquals(cell2.toString(), "?");
+        assertEquals("?", cell2.toString());
     }
 
     // isAdjacentCell method (whether cell is adjacent to current one)
@@ -156,8 +162,8 @@ class CellTest {
         assertTrue(cell1.isOpened() && cell2.isOpened());
     }
 
-   /*  whether adjacent cells to current cell's adjacent cells will not open
-     when current cell is opened, if they're not safe */
+    /*  whether adjacent cells to current cell's adjacent cells will not open
+      when current cell is opened, if they're not safe */
     @Test
     void openAdjacentMinedCells() {
         Cell cell1 = new Cell(1, 1);

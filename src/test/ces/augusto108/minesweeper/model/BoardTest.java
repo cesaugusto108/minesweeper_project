@@ -1,5 +1,6 @@
 package ces.augusto108.minesweeper.model;
 
+import ces.augusto108.minesweeper.exceptions.ExplosionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,27 +17,46 @@ class BoardTest {
 
     @Test
     void getRows() {
-        assertEquals(board.getRows(), 1);
+        assertEquals(1, board.getRows());
     }
 
     @Test
     void getColumns() {
-        assertEquals(board.getColumns(), 1);
+        assertEquals(1, board.getColumns());
     }
 
     @Test
     void getMines() {
-        assertEquals(board.getMines(), 1);
+        assertEquals(1, board.getMines());
     }
 
     @Test
     void testToString() {
-        String result = " " +
-                board.getCellList().get(0).toString() +
-                " " +
-                "\n";
+        StringBuilder result = new StringBuilder();
 
-        assertEquals(board.toString(), result);
+        result.append("  ");
+        for (int column = 0; column < board.getColumns(); column++) {
+            result.append(" ");
+            result.append(column + 1);
+            result.append(" ");
+        }
+
+        result.append("\n");
+
+        int i = 0;
+        for (int row = 0; row < board.getRows(); row++) {
+            result.append(row + 1);
+            result.append(" ");
+            for (int column = 0; column < board.getColumns(); column++) {
+                result.append(" ");
+                result.append(board.getCellList().get(i).toString());
+                result.append(" ");
+                i++;
+            }
+            result.append("\n");
+        }
+
+        assertEquals(result.toString(), board.toString());
     }
 
     // whether the player has won the game
@@ -64,6 +84,15 @@ class BoardTest {
         board.openCell(0, 0);
 
         assertTrue(board.getCellList().get(0).isOpened());
+    }
+
+    // tests the ExplosionException within the openCell method
+    @Test
+    void openCellException() {
+        Cell cell = board.getCellList().get(0);
+
+        assertThrows(ExplosionException.class, cell::openCell);
+        assertTrue(cell.isOpened());
     }
 
     // toggles flagged state of cell
