@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cell {
+
     private boolean opened;
     private boolean flagged;
     private boolean mined;
@@ -57,18 +58,15 @@ public class Cell {
         boolean otherRow = row != adjacentCell.row;
         boolean otherColumn = column != adjacentCell.column;
         boolean diagonal = otherRow && otherColumn;
-
         int cellRowDistance = row - adjacentCell.row;
         int cellColumnDistance = column - adjacentCell.column;
         int cellDistance = cellRowDistance + cellColumnDistance;
 
         if (cellDistance == 1 && !diagonal) {
             adjacentCells.add(adjacentCell);
-
             return true;
         } else if (cellDistance == 2 && diagonal) {
             adjacentCells.add(adjacentCell);
-
             return true;
         } else return false;
     }
@@ -87,11 +85,8 @@ public class Cell {
     boolean openCell() {
         if (!opened && !flagged) {
             opened = true;
-
             if (areSurroundingsSafe()) adjacentCells.forEach(Cell::openCell);
-
             if (mined) throw new ExplosionException();
-
             return true;
         } else return false;
     }
@@ -109,7 +104,6 @@ public class Cell {
     boolean isGoalMet() {
         boolean safe = opened && !mined;
         boolean cellProtected = mined && flagged;
-
         return safe || cellProtected;
     }
 

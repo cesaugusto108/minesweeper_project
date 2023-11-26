@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class GameConsole {
+
     private final Scanner scanner = new Scanner(System.in);
 
     public GameConsole() {
@@ -20,7 +21,6 @@ public class GameConsole {
     private void gameStart() {
         try {
             boolean continueGame = true;
-
             while (continueGame) {
                 Board board = play();
 
@@ -39,14 +39,12 @@ public class GameConsole {
 
     // prints the board and an instruction to enter coordinates or to quit
     private Board play() {
-        Integer[] gameOptions = chooseGameOptions();
-
-        Board board = new Board(gameOptions[0], gameOptions[1], gameOptions[2]);
+        final Integer[] gameOptions = chooseGameOptions();
+        final Board board = new Board(gameOptions[0], gameOptions[1], gameOptions[2]);
 
         try {
             while (!board.gameWin()) {
                 System.out.println("\nDifficulty level: " + gameOptions[3] + "\n\n" + board);
-
                 String typedCmd1 = getTypedCmd("\nEnter 'row number, column number' or 'quit': ");
 
                 Iterator<Integer> coordinates = Arrays
@@ -56,11 +54,8 @@ public class GameConsole {
 
                 String typedCmd2 = getTypedCmd("\n1 - Open cell or 2 - (Un)flag cell: ");
 
-                if (typedCmd2.equals("1")) {
-                    board.openCell(coordinates.next() - 1, coordinates.next() - 1);
-                } else if (typedCmd2.equals("2")) {
-                    board.toggleFlagged(coordinates.next() - 1, coordinates.next() - 1);
-                }
+                if (typedCmd2.equals("1")) board.openCell(coordinates.next() - 1, coordinates.next() - 1);
+                else if (typedCmd2.equals("2")) board.toggleFlagged(coordinates.next() - 1, coordinates.next() - 1);
             }
 
             System.out.println(board);
@@ -69,7 +64,6 @@ public class GameConsole {
             System.out.println(board);
             System.out.println("You lose.");
         }
-
         return board;
     }
 
@@ -90,7 +84,6 @@ public class GameConsole {
             else if (columns > 9) columns = 9;
 
             int mines = 0;
-
             int difficultyLevel = chooseDifficultyLevel();
 
             if (difficultyLevel == 1) mines = (int) Math.floor((rows * columns) * 0.1);
@@ -104,18 +97,15 @@ public class GameConsole {
             options[3] = difficultyLevel;
         } catch (InputMismatchException e) {
             System.out.println(
-                    "\nYour input is invalid. Default values were chosen for board size and game difficulty level."
-            );
+                    "\nYour input is invalid. Default values were chosen for board size and game difficulty level.");
 
             options = new Integer[4];
             options[0] = 6;
             options[1] = 6;
             options[2] = (int) Math.floor((options[0] * options[1]) * 0.4);
             options[3] = 1;
-
             return options;
         }
-
         return options;
     }
 
@@ -125,18 +115,14 @@ public class GameConsole {
         int difficultyLevel = scanner.nextInt();
         scanner.nextLine();
         if (difficultyLevel < 1 || difficultyLevel > 3) difficultyLevel = 3;
-
         return difficultyLevel;
     }
 
     // gets commands from user, including a command to quit
     private String getTypedCmd(String text) {
         System.out.print(text);
-
         String typedIn = scanner.nextLine();
-
         if (typedIn.equalsIgnoreCase("quit")) throw new QuitGameException();
-
         return typedIn;
     }
 }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
+
     private Board board;
 
     @BeforeEach
@@ -63,7 +64,6 @@ class BoardTest {
     @Test
     void gameWin() {
         board.getCellList().get(0).toggleFlagged();
-
         assertTrue(board.gameWin());
     }
 
@@ -71,7 +71,6 @@ class BoardTest {
     @Test
     void resetGame() {
         board.resetGame();
-
         assertFalse(board.getCellList().get(0).isOpened());
         assertTrue(board.getCellList().get(0).isMined());
     }
@@ -80,17 +79,14 @@ class BoardTest {
     @Test
     void openCell() {
         board.getCellList().get(0).unmine();
-
         board.openCell(0, 0);
-
         assertTrue(board.getCellList().get(0).isOpened());
     }
 
     // tests the ExplosionException within the openCell method
     @Test
     void openCellException() {
-        Cell cell = board.getCellList().get(0);
-
+        final Cell cell = board.getCellList().get(0);
         assertThrows(ExplosionException.class, cell::openCell);
         assertTrue(cell.isOpened());
     }
@@ -99,7 +95,6 @@ class BoardTest {
     @Test
     void toggleFlagged() {
         board.toggleFlagged(0, 0);
-
         assertTrue(board.getCellList().get(0).isFlagged());
     }
 }

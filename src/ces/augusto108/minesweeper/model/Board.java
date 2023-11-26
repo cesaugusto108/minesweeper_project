@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
+
     private final int rows;
     private final int columns;
     private final int mines;
@@ -16,7 +17,6 @@ public class Board {
         this.rows = rows;
         this.columns = columns;
         this.mines = mines;
-
         createCells();
         associateAdjacentCells();
         spreadMines();
@@ -41,8 +41,8 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-
         stringBuilder.append("  ");
+
         for (int column = 0; column < columns; column++) {
             stringBuilder.append(" ");
             stringBuilder.append(column + 1);
@@ -63,7 +63,6 @@ public class Board {
             }
             stringBuilder.append("\n");
         }
-
         return stringBuilder.toString();
     }
 
@@ -88,11 +87,9 @@ public class Board {
     // spreads the mines in the board randomly
     private void spreadMines() {
         int liveMines = 0;
-
         while (liveMines < mines) {
             int randomCell = (int) (Math.random() * cellList.size());
             cellList.get(randomCell).mine();
-
             liveMines = (int) cellList.stream().filter(Cell::isMined).count();
         }
     }
@@ -105,7 +102,6 @@ public class Board {
     // resets the game
     public void resetGame() {
         cellList.forEach(Cell::resetCell);
-
         spreadMines();
     }
 
@@ -118,7 +114,6 @@ public class Board {
                     .ifPresent(Cell::openCell);
         } catch (ExplosionException e) {
             cellList.forEach(Cell::setOpened);
-
             throw e;
         }
     }
